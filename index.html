@@ -6,118 +6,255 @@
 <title>Finance 4All - Quiz Ratios Financiers</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+::-webkit-scrollbar-thumb { background: rgba(100,200,255,0.5); border-radius: 4px; }
 body {
-font-family: 'Segoe UI', sans-serif;
-background: linear-gradient(135deg, #1c3c72 0%, #1e3c72 0%, #2a5298 100%);
-color: #ffffff;
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+background: linear-gradient(135deg, #0a0e27 0%, #1a1f4b 50%, #0d1b3d 100%);
+color: #e0e7ff;
 min-height: 100vh;
 display: flex;
 justify-content: center;
 align-items: center;
 padding: 20px;
+position: relative;
+overflow-x: hidden;
+}
+body::before {
+content: '';
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: radial-gradient(circle at 20% 50%, rgba(100, 200, 255, 0.05) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(150, 100, 255, 0.05) 0%, transparent 50%);
+pointer-events: none;
+z-index: -1;
 }
 .container {
-max-width: 800px;
+max-width: 900px;
 width: 100%;
-background: rgba(255, 255, 255, 0.1);
-backdrop-filter: blur(10px);
-border-radius: 20px;
-padding: 40px;
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+background: rgba(15, 23, 42, 0.7);
+backdrop-filter: blur(20px);
+border: 1px solid rgba(100, 200, 255, 0.2);
+border-radius: 24px;
+padding: 50px 40px;
+box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+position: relative;
+overflow: hidden;
+}
+.container::before {
+content: '';
+position: absolute;
+top: -50%;
+right: -50%;
+width: 500px;
+height: 500px;
+background: radial-gradient(circle, rgba(100, 200, 255, 0.1) 0%, transparent 70%);
+border-radius: 50%;
+filter: blur(40px);
+z-index: -1;
+}
+.header {
+text-align: center;
+margin-bottom: 40px;
+position: relative;
+z-index: 1;
 }
 h1 {
-text-align: center;
-font-size: 2.5rem;
+font-size: 2.8rem;
+font-weight: 700;
+background: linear-gradient(135deg, #64c8ff 0%, #9464ff 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
 margin-bottom: 10px;
+letter-spacing: -0.5px;
 }
 .subtitle {
+font-size: 1rem;
+color: #a0aec0;
+font-weight: 300;
+letter-spacing: 2px;
+text-transform: uppercase;
+}
+.progress-bar {
+width: 100%;
+height: 4px;
+background: rgba(100, 200, 255, 0.1);
+border-radius: 2px;
+margin: 30px 0;
+overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, #64c8ff, #9464ff);
+border-radius: 2px;
+transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.counter {
 text-align: center;
-font-size: 1.2rem;
-margin-bottom: 30px;
+font-size: 0.9rem;
+color: #64c8ff;
+font-weight: 600;
+margin-top: 10px;
+}
+.quiz-content {
+min-height: 300px;
+position: relative;
+z-index: 1;
 }
 .question {
-display: none;
-animation: fadeIn 0.5s;
-}
-.question.active {
-display: block;
+animation: fadeIn 0.4s ease-out;
 }
 @keyframes fadeIn {
-from { opacity: 0; }
-to { opacity: 1; }
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
 }
 .question-text {
-font-size: 1.5rem;
-margin-bottom: 30px;
+font-size: 1.6rem;
 font-weight: 600;
+color: #fff;
+margin-bottom: 35px;
+line-height: 1.5;
+color: #e0e7ff;
 }
 .options {
-display: flex;
-flex-direction: column;
-gap: 15px;
+display: grid;
+grid-template-columns: 1fr;
+gap: 12px;
 }
 .option {
-padding: 15px 40px;
-background: rgba(255, 255, 255, 0.15);
-border: none;
-border-radius: 8px;
-font-size: 1.1rem;
+padding: 16px 20px;
+background: rgba(100, 200, 255, 0.08);
+border: 2px solid rgba(100, 200, 255, 0.3);
+border-radius: 12px;
+font-size: 1.05rem;
+color: #e0e7ff;
 cursor: pointer;
-margin-top: 30px;
+font-weight: 500;
+transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+position: relative;
+overflow: hidden;
 }
-.option:hover {
-background: rgba(255, 255, 255, 0.25);
+.option::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+transition: left 0.5s;
 }
-.option.selected {
-background: rgba(76, 175, 80, 0.5);
-border-color: #4CAF50;
+.option:hover:not(:disabled) {
+border-color: rgba(100, 200, 255, 0.8);
+background: rgba(100, 200, 255, 0.15);
+transform: translateX(4px);
+box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
+}
+.option:hover::before {
+left: 100%;
 }
 .option.correct {
-background: rgba(76, 175, 80, 0.8);
-border-color: #4CAF50;
+border-color: rgba(76, 175, 80, 0.8);
+background: rgba(76, 175, 80, 0.2);
+box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+color: #4ade80;
 }
 .option.wrong {
-background: rgba(244, 67, 54, 0.8);
-border-color: #f44336;
+border-color: rgba(239, 68, 68, 0.8);
+background: rgba(239, 68, 68, 0.2);
+box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+color: #f87171;
+}
+.option:disabled {
+cursor: not-allowed;
 }
 .btn {
-background: #4CAF50;
-color: white;
-padding: 15px 40px;
+margin-top: 40px;
+padding: 14px 40px;
+background: linear-gradient(135deg, #64c8ff, #9464ff);
+color: #fff;
 border: none;
-border-radius: 8px;
-font-size: 1.1rem;
+border-radius: 12px;
+font-size: 1.05rem;
+font-weight: 600;
 cursor: pointer;
-margin-top: 30px;
+transition: all 0.3s ease;
+box-shadow: 0 10px 30px rgba(100, 200, 255, 0.3);
+letter-spacing: 0.5px;
+width: 100%;
 }
-.btn:hover {
-background: #45a049;
+.btn:hover:not(:disabled) {
+transform: translateY(-2px);
+box-shadow: 0 15px 40px rgba(100, 200, 255, 0.4);
 }
 .btn:disabled {
-background: #cccccc;
+opacity: 0.5;
 cursor: not-allowed;
 }
 .result {
 display: none;
 text-align: center;
+animation: slideUp 0.5s ease-out;
 }
 .result.active {
 display: block;
 }
-.score {
-font-size: 4rem;
-font-weight: bold;
-margin: 20px 0;
+@keyframes slideUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
 }
-.progress {
-text-align: center;
+.result h2 {
+font-size: 2.2rem;
 margin-bottom: 20px;
+background: linear-gradient(135deg, #64c8ff, #4ade80);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+.score-display {
+font-size: 5rem;
+font-weight: 700;
+color: #64c8ff;
+margin: 20px 0;
+text-shadow: 0 0 40px rgba(100, 200, 255, 0.3);
+}
+.score-text {
 font-size: 1.2rem;
+color: #a0aec0;
+margin-bottom: 30px;
+}
+.emoji-badge {
+font-size: 3rem;
+margin-bottom: 20px;
+}
+@media (max-width: 600px) {
+.container { padding: 30px 20px; }
+h1 { font-size: 2rem; }
+.question-text { font-size: 1.3rem; }
+.option { font-size: 0.95rem; }
+.score-display { font-size: 3.5rem; }
 }
 </style>
 </head>
 <body>
 <div class="container">
-<h1>🎯 Quiz Ratios Financiers</h1>
+<div class="header">
+<h1>🎯 Quiz Finance</h1>
 <p class="subtitle">Finance 4All™</p>
-<div class="progress"><span id="current">1</span> / <span id="total">24</span></div><div id="quiz"></div><div id="result" class="result"><h2>🎉 Quiz Terminé !</h2><div class="score" id="scoreDisplay">0/0</div><p id="scorePercent"></p><button class="btn" onclick="location.reload()">Recommencer</button></div></div><script>const questions=[{q:"Quel ratio mesure la capacité d'une entreprise à payer ses dettes à court terme ?",o:["Ratio de liquidité générale","Ratio de rentabilité","Ratio d'endettement","Ratio de rotation"],a:0},{q:"Comment calcule-t-on le ratio de liquidité générale (Current Ratio) ?",o:["Actifs courants / Passifs courants","Passifs courants / Actifs courants","Capitaux propres / Total actif","Résultat net / Chiffre d'affaires"],a:0},{q:"Le ROE (Return on Equity) mesure :",o:["La rentabilité des ventes","La rentabilité des capitaux propres","La liquidité de l'entreprise","L'endettement de l'entreprise"],a:1},{q:"Un ratio d'endettement élevé signifie que :",o:["L'entreprise est très liquide","L'entreprise a beaucoup de dettes par rapport à ses capitaux propres","L'entreprise est très rentable","L'entreprise a beaucoup de stock"],a:1},{q:"Quel ratio mesure la profitabilité sur les ventes ?",o:["Marge bénéficiaire","ROE","ROIC","Ratio de liquidité"],a:0},{q:"Comment est calculé le ratio rapide ?",o:["(Actifs courants - Stocks) / Passifs courants","Actifs courants / Passifs courants","Trésorerie / Passifs courants","Capitaux propres / Total actif"],a:0},{q:"L'indice de solvabilité évalue :",o:["La capacité de court terme à payer les dettes","La capacité de long terme à payer les intérêts et le principal","La rentabilité","L'efficacité opérationnelle"],a:1},{q:"Un ROA (Return on Assets) de 10% signifie :",o:["L'entreprise génère 10% de profit par euro d'actif","L'entreprise a 10% de dettes","L'entreprise grandit à 10% par an","Les stocks représentent 10% des actifs"],a:0},{q:"Quel ratio mesure la rotation des stocks ?",o:["Coût des ventes / Stock moyen","Stock / Actif courant","Ventes / Stocks","Marge / Stock"],a:2},{q:"Un ratio de couverture d'intérêts élevé indique :",o:["L'entreprise a beaucoup de dettes","L'entreprise peut facilement payer ses intérêts","L'entreprise est moins rentable","L'entreprise grandit rapidement"],a:1},{q:"Le ratio prix/bénéfice (P/E) compare :",o:["Le prix de l'action au bénéfice par action","Le prix aux revenus","Le bénéfice au prix des competitors","L'action au marché"],a:0},{q:"Quel est l'impact d'une baisse du ratio rapide ?",o:["Liquidité renforcée","Risque de liquidité augmente","Moins de dettes","Plus de rentabilité"],a:1},{q:"Le ratio des actifs productifs mesure :",o:["L'efficacité d'utilisation des actifs","La rentabilité pure","Le niveau d'endettement","La liquidité"],a:0},{q:"Qu'est-ce qu'un bon ratio de solvabilité ?",o:["Supérieur à 50%","Inférieur à 20%","Entre 30% et 50%","Aucune limite standard"],a:0},{q:"Comment interpréter un EBITDA élevé ?",o:["L'entreprise génère beaucoup de cash","L'entreprise n'a pas de dettes",:["L'entreprise n'a pas de taxes","L'entreprise va disparaître"],a:0},{q:"Le ratio de couverture des dividendes mesure :",o:["La capacité à payer les dividendes","Le prix de l'action","La croissance attendue","Le rendement"],a:0},{q:"Un ratio de rotation des créances faible indique :",o:["Les clients paient vite","Les clients paient lentement","L'entreprise ne vend pas","Les revenus montent"],a:1},{q:"Le ratio de rentabilité nette (RN/CA) mesure :",o:["Le bénéfice par euro de chiffre d'affaires","Le bénéfice par action","La part de marché","La croissance prévue"],a:0},{q:"Un ratio dette-fonds propres (D/E) de 2 signifie :",o:["Il y a 2x plus de dettes que de fonds propres","Il y a 2x plus de fonds propres que de dettes","Les dettes sont le double des revenus","Les fonds propres font 2% du total"],a:0},{q:"Quel ratio est le plus important pour un créancier ?",o:["ROE","Ratio de solvabilité","Rotation des stocks","Marge brute"],a:1},{q:"L'analyse des ratios DuPont décompose :",o:["Le ROE en ses composantes","La trésorerie par source","Les dettes par type","Les revenus par région"],a:0},{q:"Un ratio actuel > 2 peut indiquer :",o:["Bonne liquidité","Trop de liquidité (inefficace)","Problème de trésorerie","Faillite imminente"],a:1},{q:"Le ratio de rendement des capitaux propres (ROIC) compare :",o:["Le résultat opérationnel au capital investi","Le prix à la valeur comptable","Les dividendes au cours de bourse","Les ventes aux stocks"],a:0},{q:"Qu'est-ce qui ne doit PAS être ignoré lors de l'analyse des ratios ?",o:["Le contexte économique et le secteur","Les tendances passées","Les comparaisons peer","Toutes les réponses sont correctes"],a:3}];let currentQ=0,score=0;function renderQ(){const q=questions[currentQ],html=`<div class='question active'><div class='question-text'>${q.q}</div><div class='options'>${q.o.map((opt,i)=>`<button class='option' onclick='selectOpt(${i})'>${opt}</button>`).join('')}</div></div>`;document.getElementById('quiz').innerHTML=html;document.getElementById('current').textContent=currentQ+1}function selectOpt(i){const q=questions[currentQ];if(i===q.a){score++;document.querySelectorAll('.option')[i].classList.add('correct')}else{document.querySelectorAll('.option')[i].classList.add('wrong');document.querySelectorAll('.option')[q.a].classList.add('correct')}document.querySelectorAll('.option').forEach(btn=>btn.disabled=true);setTimeout(()=>{currentQ++;if(currentQ<questions.length){renderQ()}else{showResult()}},1500)}function showResult(){const pct=Math.round(score/questions.length*100);document.getElementById('quiz').style.display='none';document.getElementById('result').classList.add('active');document.getElementById('scoreDisplay').textContent=`${score}/${questions.length}`;document.getElementById('scorePercent').textContent=`${pct>=80?'✅ Excellent !':pct>=60?'👍 Bon résultat !':'📚 À revoir !'}  Score: ${pct}%`}renderQ();</script></body></html>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="counter"><span id="current">1</span> / 4</div>
+<div id="quiz" class="quiz-content"></div>
+<div id="result" class="result">
+<div class="emoji-badge" id="badge"></div>
+<h2>Quiz Terminé</h2>
+<div class="score-display" id="scoreDisplay">0/4</div>
+<p class="score-text" id="scorePercent"></p>
+<button class="btn" onclick="location.reload()">Recommencer</button>
+</div>
+</div>
+<script>const allQuestions=[{q:"Quel ratio mesure la capacité d'une entreprise à payer ses dettes à court terme ?",o:["Ratio de liquidité générale","Ratio de rentabilité","Ratio d'endettement","Ratio de rotation"],a:0},{q:"Comment calcule-t-on le ratio de liquidité générale ?",o:["Actifs courants / Passifs courants","Passifs courants / Actifs courants","Capitaux propres / Total actif","Résultat net / Chiffre d'affaires"],a:0},{q:"Le ROE (Return on Equity) mesure :",o:["La rentabilité des ventes","La rentabilité des capitaux propres","La liquidité de l'entreprise","L'endettement de l'entreprise"],a:1},{q:"Un ratio d'endettement élevé signifie que :",o:["L'entreprise est très liquide","L'entreprise a beaucoup de dettes par rapport à ses capitaux propres","L'entreprise est très rentable","L'entreprise a beaucoup de stock"],a:1},{q:"Quel ratio mesure la profitabilité sur les ventes ?",o:["Marge bénéficiaire","ROE","ROIC","Ratio de liquidité"],a:0},{q:"Comment est calculé le ratio rapide ?",o:["(Actifs courants - Stocks) / Passifs courants","Actifs courants / Passifs courants","Trésorerie / Passifs courants","Capitaux propres / Total actif"],a:0},{q:"L'indice de solvabilité évalue :",o:["La capacité de court terme à payer les dettes","La capacité de long terme à payer les intérêts et le principal","La rentabilité","L'efficacité opérationnelle"],a:1},{q:"Un ROA de 10% signifie :",o:["L'entreprise génère 10% de profit par euro d'actif","L'entreprise a 10% de dettes","L'entreprise grandit à 10% par an","Les stocks représentent 10% des actifs"],a:0},{q:"Quel ratio mesure la rotation des stocks ?",o:["Coût des ventes / Stock moyen","Stock / Actif courant","Ventes / Stocks","Marge / Stock"],a:2},{q:"Un ratio de couverture d'intérêts élevé indique :",o:["L'entreprise a beaucoup de dettes","L'entreprise peut facilement payer ses intérêts","L'entreprise est moins rentable","L'entreprise grandit rapidement"],a:1},{q:"Le ratio prix/bénéfice (P/E) compare :",o:["Le prix de l'action au bénéfice par action","Le prix aux revenus","Le bénéfice au prix des competitors","L'action au marché"],a:0},{q:"Quel est l'impact d'une baisse du ratio rapide ?",o:["Liquidité renforcée","Risque de liquidité augmente","Moins de dettes","Plus de rentabilité"],a:1},{q:"Le ratio des actifs productifs mesure :",o:["L'efficacité d'utilisation des actifs","La rentabilité pure","Le niveau d'endettement","La liquidité"],a:0},{q:"Qu'est-ce qu'un bon ratio de solvabilité ?",o:["Supérieur à 50%","Inférieur à 20%","Entre 30% et 50%","Aucune limite standard"],a:0},{q:"Le ratio de couverture des dividendes mesure :",o:["La capacité à payer les dividendes","Le prix de l'action","La croissance attendue","Le rendement"],a:0},{q:"Un ratio de rotation des créances faible indique :",o:["Les clients paient vite","Les clients paient lentement","L'entreprise ne vend pas","Les revenus montent"],a:1},{q:"Le ratio de rentabilité nette mesure :",o:["Le bénéfice par euro de chiffre d'affaires","Le bénéfice par action","La part de marché","La croissance prévue"],a:0},{q:"Un ratio dette-fonds propres (D/E) de 2 signifie :",o:["Il y a 2x plus de dettes que de fonds propres","Il y a 2x plus de fonds propres que de dettes","Les dettes sont le double des revenus","Les fonds propres font 2% du total"],a:0},{q:"Quel ratio est prioritaire pour un créancier ?",o:["ROE","Ratio de solvabilité","Rotation des stocks","Marge brute"],a:1},{q:"L'analyse DuPont décompose :",o:["Le ROE en ses composantes","La trésorerie par source","Les dettes par type","Les revenus par région"],a:0},{q:"Un ratio actuel > 2 peut indiquer :",o:["Bonne liquidité","Trop de liquidité inefficace","Problème de trésorerie","Faillite imminente"],a:1}];function shuffle(a){let e=a.length;for(;0!==e;){let t=Math.floor(Math.random()*e);e--,[a[e],a[t]]=[a[t],a[e]]}return a}let questions=shuffle([...allQuestions]).slice(0,4),currentQ=0,score=0;function render(){const e=questions[currentQ];document.getElementById('quiz').innerHTML=`<div class='question'><div class='question-text'>${e.q}</div><div class='options'>${e.o.map((t,o)=>`<button class='option' onclick='answer(${o})'>${t}</button>`).join('')}</div></div>`;document.getElementById('current').textContent=currentQ+1,updateProgress()}function updateProgress(){const e=(currentQ/4)*100;document.getElementById('progressFill').style.width=e+'%'}function answer(e){const t=questions[currentQ];e===t.a?score++:null,document.querySelectorAll('.option').forEach((o,a)=>{a===t.a?o.classList.add('correct'):a===e&&o.classList.add('wrong'),o.disabled=!0}),setTimeout(()=>{currentQ++,currentQ<4?render():showResult()},1500)}function showResult(){const e=Math.round(score/4*100);let t='👋';e>=80?t='🌟':e>=60?t='👍':t='📚',document.getElementById('quiz').style.display='none',document.getElementById('result').classList.add('active'),document.getElementById('badge').textContent=t,document.getElementById('scoreDisplay').textContent=`${score}/4`,document.getElementById('scorePercent').textContent=`${e>=80?'✅ Excellent ! Vous maîtrisez les ratios':e>=60?'👍 Bon travail ! Encore un effort':'📚 À revoir pour progresser'}  `,document.getElementById('scorePercent').innerHTML+=`<br><span style='font-size:2rem; margin-top:15px; display:block;'>${e}%</span>`}render();</script></body></html>
